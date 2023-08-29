@@ -1,0 +1,50 @@
+.note-title {
+    height: 24px;
+    display: flex;
+}
+
+.note-title div {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.note-body {
+    flex-grow: 1;
+    width: 100%;
+    padding-top: 8px;
+}
+
+.note-icon-list {
+    height: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-container:hover {
+    .btn-grid {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 32px;
+        aspect-ratio: 1;
+    }
+
+    .bottom-icons {
+        display: flex;
+        align-items: center;
+        aspect-ratio: 1;
+        height: 28px;
+    }
+}
+
+.note-container.list .note-icon-list {
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+
+

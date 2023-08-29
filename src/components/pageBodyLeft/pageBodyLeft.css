@@ -1,0 +1,27 @@
+.left-pane-icon-container {
+    height: 48px;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.left-pane-icon-container:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.left-pane-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.left-pane-icon-label {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    padding-left: 20px;
+    font-size: .875rem;
+    font-weight: 500;
+}

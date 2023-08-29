@@ -1,0 +1,10 @@
+.note-maker-title {
+    flex-grow: 1;
+    outline: none;
+}
+
+.note-maker-title::placeholder {
+    color: #6a6a6a;
+    font-weight: 500;
+}
+

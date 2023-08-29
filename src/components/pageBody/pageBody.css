@@ -1,0 +1,31 @@
+.page-body-right {
+    flex-grow: 1;
+    padding: 32px;
+    border: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    height: fit-content;
+}
+
+.page-body-left {
+    height: 100%;
+    border: 1px solid grey;
+}
+
+.left-pane-icons-container {
+    top: 64px;
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+    width: 280px;
+}
+
+.main-header {
+    min-height: fit-content;
+}
+
+.main-body {
+    flex-grow: 1;
+}

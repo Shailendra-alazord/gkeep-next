@@ -1,0 +1,8 @@
+.title-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-grow: 1;
+    font-size: 22px;
+    color: grey;
+}

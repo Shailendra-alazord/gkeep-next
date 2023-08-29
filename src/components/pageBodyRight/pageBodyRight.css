@@ -1,0 +1,9 @@
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-body {
+    height: fit-content;
+}

@@ -1,149 +1,30 @@
+// @ts-ignore
+import Note from '@/components/note/note';
 import './listLayout.css';
-import { useContext } from 'react';
-import { NoteListContext } from '@/Providers/noteListProvider';
-import Image from 'next/image';
-import {
-  ALERTICON,
-  COLLABORATORICON,
-  DELETEICON,
-  MOREICON,
-  PALETTEICON,
-  PHOTOICON,
-  PINICON,
-  TICKICON,
-  UNPINICON,
-} from '@/utils/constants';
-import { DisplayContext } from '@/Providers/DisplayProvider';
-import handlePin from '@/utils/handlePin';
-import filterNoteList from '@/utils/filterNoteList';
 
 // @ts-ignore
-const ICONLIST = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON];
-export default function ListLayout() {
-  // @ts-ignore
-  const [noteList, setNoteList] = useContext(NoteListContext);
-  // @ts-ignore
-  const { query } = useContext(DisplayContext);
-  const filteredList = filterNoteList(noteList, query);
-  // @ts-ignore
-  const { setIsModalOpen, setModalNote } = useContext(DisplayContext);
-
-  function openModal(note: any) {
-    setModalNote(note);
-    setIsModalOpen(true);
-  }
-
-  function handleDelete(note: any) {
-    const noteListCopy = noteList.filter((noteElem: any) => {
-      return noteElem.id !== note.id;
-    });
-    setNoteList(noteListCopy);
-    localStorage.setItem('noteList', JSON.stringify(noteListCopy));
-  }
-
+export default function ListLayout({ className, value }) {
+  const { noteList } = value;
+  const noteListPinned = noteList.filter((note: { pinned: any }) => note.pinned);
+  const noteListOthers = noteList.filter((note: { pinned: any }) => !note.pinned);
   return (
-    <div className="list-layout">
-      <div className="list-layout-container pinned">
-        <div>PINNED</div>
-        {filteredList.map((note: any, key: any) => {
-          return note.pinned ? (
-            <pre
-              className={`list-note-container ${key}`}
-              key={note.title + key}
-              style={{ backgroundColor: note.backgroundColor }}
-            >
-              <div className="tick-icon-container">
-                <button className="tick-icon">
-                  <Image src={TICKICON.src} alt={TICKICON.name} width={24} height={24} />
-                </button>
-              </div>
-              <div className="list-note">
-                <div className="list-note-title" onClick={() => openModal(note)}>
-                  {note.title}
-                </div>
-                <div className="list-note-body" onClick={() => openModal(note)}>
-                  {note.body}
-                </div>
-                <div className="hover-icons-bottom">
-                  <div className="hover-icons">
-                    {ICONLIST.map(icon => {
-                      return (
-                        <button key={`icon${icon.name}`}>
-                          <Image src={icon.src} alt={icon.name} width={20} height={20} />
-                        </button>
-                      );
-                    })}
-                    <button onClick={() => handleDelete(note)}>
-                      <Image src={DELETEICON.src} alt={DELETEICON.name} width={20} height={20} />
-                    </button>
-                    <button>
-                      <Image src={MOREICON.src} alt={MOREICON.name} width={20} height={20} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="pin-icon-container">
-                <button className="pin-icon" onClick={() => handlePin(note, noteList, setNoteList)}>
-                  <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
-                </button>
-              </div>
-            </pre>
-          ) : (
-            <></>
-          );
-        })}
-      </div>
-
-      <div className="list-layout-container others">
-        <div>OTHERS</div>
-        {filteredList.map((note: any, key: any) => {
-          return !note.pinned ? (
-            <pre
-              className={`list-note-container ${key}`}
-              key={note.title + key}
-              style={{ backgroundColor: note.backgroundColor }}
-            >
-              <div className="tick-icon-container">
-                <button className="tick-icon">
-                  <Image src={TICKICON.src} alt={TICKICON.name} width={24} height={24} />
-                </button>
-              </div>
-              <div className="list-note">
-                <div className="list-note-title" onClick={() => openModal(note)}>
-                  {note.title}
-                </div>
-                <div className="list-note-body" onClick={() => openModal(note)}>
-                  {note.body}
-                </div>
-                <div className="hover-icons-bottom">
-                  <div className="hover-icons">
-                    {ICONLIST.map(icon => {
-                      return (
-                        <button key={`icon${icon.name}`}>
-                          <Image src={icon.src} alt={icon.name} width={20} height={20} />
-                        </button>
-                      );
-                    })}
-                    <button onClick={() => handleDelete(note)}>
-                      <Image src={DELETEICON.src} alt={DELETEICON.name} width={20} height={20} />
-                    </button>
-                    <button>
-                      <Image src={MOREICON.src} alt={MOREICON.name} width={20} height={20} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="pin-icon-container">
-                <button className="pin-icon" onClick={() => handlePin(note, noteList, setNoteList)}>
-                  <Image src={PINICON.src} alt={PINICON.name} width={24} height={24} />
-                </button>
-              </div>
-            </pre>
-          ) : (
-            <></>
-          );
-        })}
-      </div>
+    <div className={className}>
+      {noteListPinned.length > 0 && (
+        <div className="list-notes-container focused">
+          <div>Pinned</div>
+          {noteListPinned.map((note: any) => {
+            return <Note key={note.id} note={note} value={value} className="note-container list" />;
+          })}
+        </div>
+      )}
+      {noteListOthers.length > 0 && (
+        <div className="list-notes-container others">
+          <div>Others</div>
+          {noteListOthers.map((note: any) => {
+            return <Note key={note.id} note={note} value={value} className="note-container list" />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
