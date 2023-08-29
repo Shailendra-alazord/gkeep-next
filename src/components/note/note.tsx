@@ -10,44 +10,53 @@ import {
   PINICON,
   UNPINICON,
 } from '@/utils/constants';
-import ActionButton from '@/components/actionButton/actionButton'; // @ts-ignore
+import ActionButton from '@/components/actionButton/actionButton';
+import { useCallback } from 'react';
 
 const bottomIcons = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, DELETEICON];
 // @ts-ignore
-export default function Note({ note, value, className }) {
-  const { noteList, setNoteList } = value;
+export default function Note({ note, noteListData, className, toggleModal, toggleModalNote }) {
+  const { noteList, setNoteList } = noteListData;
 
-  function deleteNote() {
+  const deleteNote = useCallback(() => {
     const newNoteList = noteList.filter((noteElem: any) => noteElem.id !== note.id);
     setNoteList(newNoteList);
     localStorage.setItem('noteList', JSON.stringify(newNoteList));
-  }
+  }, [note.id, noteList, setNoteList]);
 
-  function togglePin() {
+  const togglePin = useCallback(() => {
     const newNoteList = noteList.map((noteElem: any) => {
       return note.id === noteElem.id ? { ...note, pinned: !note.pinned } : noteElem;
     });
     setNoteList(newNoteList);
     localStorage.setItem('noteList', JSON.stringify(newNoteList));
-  }
+  }, [note, noteList, setNoteList]);
 
-  function handleAction(icon: string) {
-    switch (icon) {
-      case 'pin':
-        togglePin();
-        break;
-      case 'delete':
-        deleteNote();
-        break;
-      default:
-        alert('associated function to be added soon');
-    }
-  }
+  const handleAction = useCallback(
+    (icon: string) => {
+      switch (icon) {
+        case 'pin':
+          togglePin();
+          break;
+        case 'delete':
+          deleteNote();
+          break;
+        default:
+          alert('associated function to be added soon');
+      }
+    },
+    [deleteNote, togglePin]
+  );
+
+  const handleClick = useCallback(() => {
+    toggleModal();
+    toggleModalNote(note);
+  }, [note, toggleModal, toggleModalNote]);
 
   return (
     <pre className={className}>
       <div className={`note-title ${className === 'note-container list' ? 'list' : 'grid'}`}>
-        <div>{note.title ?? 'Title'}</div>
+        <div onClick={handleClick}>{note.title ?? 'Title'}</div>
         <button className={'btn-grid'} onClick={() => handleAction('pin')}>
           {note.pinned ? (
             <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
@@ -56,7 +65,9 @@ export default function Note({ note, value, className }) {
           )}
         </button>
       </div>
-      <div className={`note-body ${className === 'note-container list' ? 'list' : 'grid'}`}>{note.body}</div>
+      <div className={`note-body ${className === 'note-container list' ? 'list' : 'grid'}`} onClick={handleClick}>
+        {note.body}
+      </div>
       <div className="note-icon-list">
         {bottomIcons.map((icon: any) => {
           return (

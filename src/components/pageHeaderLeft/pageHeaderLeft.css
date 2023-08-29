@@ -4,5 +4,26 @@
     gap: 12px;
     flex-grow: 1;
     font-size: 22px;
-    color: grey;
+    font-family: "Product Sans", Arial, sans-serif;
+    color: #5F6368;
+}
+
+.page-title {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    font-weight: 100;
+}
+
+.menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.menu-icon:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
 }

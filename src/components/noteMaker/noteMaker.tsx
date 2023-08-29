@@ -4,10 +4,9 @@ import {BRUSHICON, CHECKBOXICON, PHOTOICON} from '@/utils/constants'; // @ts-ign
 import './noteMaker.css'; // @ts-ignore
 
 // @ts-ignore
-export default function NoteMaker({ className, value }) {
-  const { focus, setFocus } = value;
+export default function NoteMaker({ className, toggleFocus }) {
   return (
-    <div className={className} onClick={() => setFocus(!focus)}>
+    <div className={className} onClick={toggleFocus}>
       <input className="note-maker-title" placeholder="Take a note..." />
       <button>
         <Image src={CHECKBOXICON.src} alt={CHECKBOXICON.name} width={24} height={24} />

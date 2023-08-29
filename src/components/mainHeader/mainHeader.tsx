@@ -1,18 +1,27 @@
 'use client';
 // @ts-ignore
-import {useState} from 'react';
+import {useCallback, useState} from 'react';
 import NoteMaker from '@/components/noteMaker/noteMaker';
 import NoteMakerFocused from '@/components/noteMakerFocused/noteMakerFocused'; // @ts-ignore
 import './mainHeader.css';
 // @ts-ignore
-export default function MainHeader({ className, value }) {
+export default function MainHeader({ className, noteListData }) {
   const [focus, setFocus] = useState(false);
+  const toggleFocus = useCallback(() => {
+    setFocus(prevState => !prevState);
+  }, []);
+
   return (
     <div className={className}>
       {focus ? (
-        <NoteMakerFocused className="note-maker focused" value={{ focus: focus, setFocus: setFocus, ...value }} />
+        <NoteMakerFocused
+          className="note-maker focused"
+          focus={focus}
+          toggleFocus={toggleFocus}
+          noteListData={noteListData}
+        />
       ) : (
-        <NoteMaker className="note-maker" value={{ focus: focus, setFocus: setFocus, ...value }} />
+        <NoteMaker className="note-maker" toggleFocus={toggleFocus} />
       )}
     </div>
   );

@@ -6,10 +6,11 @@ import './pageBodyLeft.css';
 import {useCallback} from 'react'; // @ts-ignore
 
 // @ts-ignore
-export default function PageBodyLeft({ className }) {
+export default function PageBodyLeft({ className, menuOpen }) {
   const handleClick = useCallback(() => {
     alert('functionality will be added soon');
   }, []);
+
   return (
     <div className={className}>
       <div className="left-pane-icons-container">
@@ -17,14 +18,14 @@ export default function PageBodyLeft({ className }) {
           return (
             <div
               key={'left-pane-icon' + icon.name}
-              className="left-pane-icon-container flex pl-3"
+              className="left-pane-icon-container flex pl-5"
               style={{ backgroundColor: `${icon.name === 'notes' && '#feefc3'}` }}
               onClick={handleClick}
             >
               <div className={'left-pane-icon ' + icon.name}>
                 <Image src={icon.src} alt={icon.name} width={24} height={24} />
               </div>
-              <div className={'left-pane-icon-label'}>{icon.label}</div>
+              {menuOpen && <div className={'left-pane-icon-label'}>{icon.label}</div>}
             </div>
           );
         })}

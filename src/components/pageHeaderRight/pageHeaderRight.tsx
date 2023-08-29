@@ -1,7 +1,7 @@
 import './pageHeaderRight.css';
 import Image from 'next/image';
 import {APPSICON, PROFILEICON} from '@/utils/constants'; // @ts-ignore
-// @ts-ignore
+//
 export default function PageHeaderRight({ className }) {
   return (
     <div className={className}>

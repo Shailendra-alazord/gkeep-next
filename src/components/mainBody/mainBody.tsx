@@ -1,20 +1,42 @@
 // @ts-ignore
-import {useContext} from 'react';
+import {useCallback, useContext, useState} from 'react';
 import {DisplayContext} from '@/providers/displayProvider';
-import GridLayout from '@/components/gridLayout/gridLayout';
-import ListLayout from '@/components/listLayout/listLayout';
 import './mainBody.css';
+import ModalNote from '@/components/modalNote/modalNote';
+import {DEFAULTNOTE} from '@/utils/constants';
+import NotesLayout from '@/components/notesLayout/notesLayout';
 
 // @ts-ignore
-export default function MainBody({ className, value }) {
+export default function MainBody({ className, noteListData }) {
   // @ts-ignore
   const { layoutMode } = useContext(DisplayContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalNote, setModalNote] = useState(DEFAULTNOTE);
+
+  const toggleModal = useCallback(() => {
+    setModalOpen(!modalOpen);
+  }, [modalOpen]);
+
+  const toggleModalNote = useCallback((note: any) => {
+    setModalNote(note);
+  }, []);
+
   return (
     <div className={className}>
-      {layoutMode === 'GRID' ? (
-        <GridLayout className="grid-layout" value={value} />
-      ) : (
-        <ListLayout className="list-layout" value={value} />
+      <NotesLayout
+        className={layoutMode === 'GRID' ? 'grid-layout' : 'list-layout'}
+        layoutMode={layoutMode}
+        noteListData={noteListData}
+        toggleModal={toggleModal}
+        toggleModalNote={toggleModalNote}
+      />
+      {modalOpen && (
+        <ModalNote
+          modalNote={modalNote}
+          toggleModalNote={toggleModalNote}
+          toggleModal={toggleModal}
+          noteListData={noteListData}
+        />
       )}
     </div>
   );

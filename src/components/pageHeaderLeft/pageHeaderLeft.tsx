@@ -2,10 +2,10 @@ import './pageHeaderLeft.css';
 import Image from 'next/image';
 import {MENUICON} from '@/utils/constants'; // @ts-ignore
 // @ts-ignore
-export default function PageHeaderLeft({ className }) {
+export default function PageHeaderLeft({ className, toggleMenu }) {
   return (
     <div className={className}>
-      <div className="menu-icon">
+      <div className="menu-icon" onClick={toggleMenu}>
         <Image src={MENUICON.src} alt={MENUICON.name} width={24} height={24} />
       </div>
       <div className="title-container">

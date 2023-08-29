@@ -14,20 +14,25 @@ export default function PageHeaderCenter({ className }) {
     event.preventDefault();
     setQuery(event.target.value);
   }, []);
+
   const handleSearch = useCallback((event: any) => {
     event.preventDefault();
   }, []);
+
   const handleClose = useCallback((event: any) => {
     event.preventDefault();
     setQuery('');
   }, []);
+
   const handleSubmit = useCallback((event: any) => {
     event.preventDefault();
   }, []);
+
   const handleClick = useCallback(() => {
     toggleLayoutMode();
     setSearchMode(false);
-  }, [toggleLayoutMode]);
+  }, [setSearchMode, toggleLayoutMode]);
+
   return (
     <div className={className}>
       <form className="search-container" onSubmit={handleSubmit} onFocus={() => setSearchMode(true)}>

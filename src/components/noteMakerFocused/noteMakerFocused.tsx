@@ -1,6 +1,7 @@
+'use client';
 // @ts-ignore
 import Image from 'next/image';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ALERTICON,
   ARCHIVEICON,
@@ -14,10 +15,10 @@ import {
 } from '@/utils/constants'; // @ts-ignore
 import './noteMakerFocused.css';
 
-const ICONLIST = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, MOREICON];
+const iconList = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, MOREICON];
 // @ts-ignore
-export default function NoteMakerFocused({ className, value }) {
-  const { focus, setFocus, noteList, setNoteList } = value;
+export default function NoteMakerFocused({ className, focus, toggleFocus, noteListData }) {
+  const { noteList, setNoteList } = noteListData;
   const [note, setNote] = useState(DEFAULTNOTE);
   const formRef = useRef(null);
 
@@ -30,17 +31,20 @@ export default function NoteMakerFocused({ className, value }) {
       localStorage.setItem('noteList', JSON.stringify(newNoteList));
       console.log(newNoteList);
     }
-    setFocus(!focus);
-  }, [focus, note, noteList, setFocus, setNoteList]);
+    toggleFocus();
+  }, [note, noteList, setNoteList, toggleFocus]);
 
-  function handleSubmit(event: any) {
-    event.preventDefault();
-    submitNote();
-  }
+  const handleSubmit = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      submitNote();
+    },
+    [submitNote]
+  );
 
-  function handleClick(event: any) {
+  const handleClick = useCallback((event: any) => {
     event.preventDefault();
-  }
+  }, []);
 
   function handleTitle(event: any) {
     setNote(prevState => ({ ...prevState, title: event.target.value }));
@@ -55,15 +59,27 @@ export default function NoteMakerFocused({ className, value }) {
     setNote({ ...note, pinned: !note.pinned });
   }
 
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      //@ts-ignore
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        submitNote();
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside, true);
+    return () => document.removeEventListener('click', handleClickOutside, true);
+  }, [submitNote]);
+
   return (
-    <form ref={formRef} className={className} onSubmit={handleSubmit} onBlur={submitNote}>
+    <form ref={formRef} className={className} onSubmit={handleSubmit}>
       <div className="note-maker-title-container">
         <input className="note-maker-title" placeholder="Title" value={note.title} onChange={handleTitle} />
-        <button onClick={handleClick}>
+        <button onClick={handlePin}>
           {note.pinned ? (
-            <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} onClick={handlePin} />
+            <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
           ) : (
-            <Image src={PINICON.src} alt={PINICON.name} width={24} height={24} onClick={handlePin} />
+            <Image src={PINICON.src} alt={PINICON.name} width={24} height={24} />
           )}
         </button>
       </div>
@@ -76,7 +92,7 @@ export default function NoteMakerFocused({ className, value }) {
       />
       <div className="bottom-icons">
         <div className="bottom-icon-list">
-          {ICONLIST.map((icon: any) => {
+          {iconList.map((icon: any) => {
             return (
               <button key={'icon-' + icon.name} onClick={handleClick}>
                 <Image src={icon.src} alt={icon.name} width={20} height={20} />
@@ -84,7 +100,7 @@ export default function NoteMakerFocused({ className, value }) {
             );
           })}
         </div>
-        <button id="note-maker-close" type="submit">
+        <button id="note-maker-close" type="submit" onClick={handleSubmit}>
           Close
         </button>
       </div>
