@@ -7,12 +7,11 @@ import {DEFAULTNOTE} from '@/utils/constants';
 import NotesLayout from '@/components/notesLayout/notesLayout';
 
 // @ts-ignore
-export default function MainBody({ className, noteListData }) {
+export default function MainBody({ className, noteListData, query }) {
   // @ts-ignore
-  const { layoutMode } = useContext(DisplayContext);
+  const { layoutMode, searchMode } = useContext(DisplayContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalNote, setModalNote] = useState(DEFAULTNOTE);
-
   const toggleModal = useCallback(() => {
     setModalOpen(!modalOpen);
   }, [modalOpen]);
@@ -28,6 +27,7 @@ export default function MainBody({ className, noteListData }) {
         layoutMode={layoutMode}
         noteListData={noteListData}
         toggleModal={toggleModal}
+        query={query}
         toggleModalNote={toggleModalNote}
       />
       {modalOpen && (

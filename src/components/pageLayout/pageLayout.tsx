@@ -7,16 +7,21 @@ import { useCallback, useState } from 'react';
 
 export default function PageLayout() {
   const [menuOpen, setMenuOpen] = useState(true);
+  const [query, setQuery] = useState('');
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(prevState => !prevState);
   }, []);
 
+  const updateQuery = useCallback((data: string) => {
+    setQuery(data);
+  }, []);
+
   return (
     <div className="page-layout">
       <DisplayProvider>
-        <PageHeader className="page-header" toggleMenu={toggleMenu} />
-        <PageBody className="page-body" menuOpen={menuOpen} />
+        <PageHeader className="page-header" toggleMenu={toggleMenu} updateQuery={updateQuery} />
+        <PageBody className="page-body" menuOpen={menuOpen} query={query} />
       </DisplayProvider>
     </div>
   );

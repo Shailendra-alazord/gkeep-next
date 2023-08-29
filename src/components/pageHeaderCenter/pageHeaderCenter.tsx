@@ -6,23 +6,32 @@ import {useCallback, useContext, useState} from 'react';
 import {DisplayContext} from '@/providers/displayProvider';
 
 // @ts-ignore
-export default function PageHeaderCenter({ className }) {
+export default function PageHeaderCenter({ className, updateQuery }) {
   // @ts-ignore
-  const { layoutMode, toggleLayoutMode, setSearchMode } = useContext(DisplayContext);
+  const { layoutMode, toggleLayoutMode, searchMode, setSearchMode } = useContext(DisplayContext);
   const [query, setQuery] = useState('');
-  const handleChange = useCallback((event: any) => {
-    event.preventDefault();
-    setQuery(event.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      setQuery(event.target.value);
+      updateQuery(event.target.value);
+    },
+    [updateQuery]
+  );
 
   const handleSearch = useCallback((event: any) => {
     event.preventDefault();
   }, []);
 
-  const handleClose = useCallback((event: any) => {
-    event.preventDefault();
-    setQuery('');
-  }, []);
+  const handleClose = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      setQuery('');
+      updateQuery('');
+      setSearchMode(false);
+    },
+    [setSearchMode, updateQuery]
+  );
 
   const handleSubmit = useCallback((event: any) => {
     event.preventDefault();
@@ -30,8 +39,7 @@ export default function PageHeaderCenter({ className }) {
 
   const handleClick = useCallback(() => {
     toggleLayoutMode();
-    setSearchMode(false);
-  }, [setSearchMode, toggleLayoutMode]);
+  }, [toggleLayoutMode]);
 
   return (
     <div className={className}>
@@ -40,7 +48,7 @@ export default function PageHeaderCenter({ className }) {
           <Image src={SEARCHICON.src} alt={SEARCHICON.name} width={24} height={24} />
         </div>
         <input className="search-global" type="text" placeholder="Search" value={query} onChange={handleChange} />
-        {query !== '' && (
+        {searchMode && (
           <button className="btn close" onClick={handleClose}>
             <Image src={CLOSEICON.src} alt={CLOSEICON.name} width={24} height={24} />
           </button>

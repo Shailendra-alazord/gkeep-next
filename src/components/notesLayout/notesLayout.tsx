@@ -1,11 +1,13 @@
 import {useCallback} from 'react';
 import Note from '@/components/note/note'; // @ts-ignore
 import './notesLayout.css';
+import filterNoteList from '@/utils/filterNoteList';
 // @ts-ignore
-export default function NotesLayout({ className, noteListData, toggleModal, toggleModalNote, layoutMode }) {
+export default function NotesLayout({ className, noteListData, toggleModal, toggleModalNote, layoutMode, query }) {
   const { noteList } = noteListData;
-  const noteListPinned = noteList.filter((note: { pinned: any }) => note.pinned);
-  const noteListOthers = noteList.filter((note: { pinned: any }) => !note.pinned);
+  const filteredList = filterNoteList(noteList, query);
+  const noteListPinned = filteredList.filter((note: { pinned: any }) => note.pinned);
+  const noteListOthers = filteredList.filter((note: { pinned: any }) => !note.pinned);
 
   const handleClick = useCallback(
     (note: any) => {

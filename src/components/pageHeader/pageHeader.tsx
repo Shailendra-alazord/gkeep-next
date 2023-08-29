@@ -5,11 +5,11 @@ import PageHeaderRight from '@/components/pageHeaderRight/pageHeaderRight';
 // import pageHeaderCenter from "@/components/globarSearchBar/pageHeaderCenter";
 
 // @ts-ignore
-export default function PageHeader({ className, toggleMenu }) {
+export default function PageHeader({ className, toggleMenu, updateQuery }) {
   return (
     <div className={className}>
       <PageHeaderLeft className={'page-header-left'} toggleMenu={toggleMenu} />
-      <PageHeaderCenter className={'page-header-center'} />
+      <PageHeaderCenter className={'page-header-center'} updateQuery={updateQuery} />
       <PageHeaderRight className={'page-header-right'} />
     </div>
   );
