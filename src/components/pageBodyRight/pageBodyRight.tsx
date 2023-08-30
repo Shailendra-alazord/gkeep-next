@@ -22,8 +22,10 @@ export default function PageBodyRight({ className, query }) {
 
   return (
     <div className={className}>
-      {!searchMode && <MainHeader className="main-header" noteListData={noteListData} />}
-      <MainBody className="main-body" noteListData={noteListData} query={query} />
+      {!searchMode && (
+        <MainHeader className="flex items-center justify-center main-header" noteListData={noteListData} />
+      )}
+      <MainBody className="grow main-body" noteListData={noteListData} query={query} />
     </div>
   );
 }

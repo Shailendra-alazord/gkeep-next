@@ -1,27 +1,5 @@
-.page-header-center {
-    flex-grow: 1;
-}
-
-.page-header-left, .page-header-center, .page-header-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 100%;
-    /*border: 1px solid black;*/
-}
 
 .page-header-left button, .page-header-center button, .page-header-right button {
     min-width: 32px;
     aspect-ratio: 1;
-}
-
-.page-header-left {
-    width: 240px;
-    padding: 4px 12px;
-}
-
-.page-header-right {
-    justify-content: center;
-    width: 140px;
-    padding: 4px 12px;
 }

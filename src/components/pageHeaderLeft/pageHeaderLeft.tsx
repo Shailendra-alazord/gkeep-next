@@ -5,14 +5,17 @@ import {MENUICON} from '@/utils/constants'; // @ts-ignore
 export default function PageHeaderLeft({ className, toggleMenu }) {
   return (
     <div className={className}>
-      <div className="menu-icon" onClick={toggleMenu}>
+      <div
+        className="flex items-center justify-center h-full aspect-square hover:bg-hover-color hover:rounded-full menu-icon"
+        onClick={toggleMenu}
+      >
         <Image src={MENUICON.src} alt={MENUICON.name} width={24} height={24} />
       </div>
-      <div className="title-container">
-        <button className="keep-logo">
+      <div className="flex items-center gap-3 grow title-container">
+        <button className=" aspect-square keep-logo">
           <Image src={'/keep_logo.svg'} alt={'Keep Logo'} width={28} height={28} />
         </button>
-        <div className="page-title">Keep</div>
+        <div className="flex items-center h-6 page-title">Keep</div>
       </div>
     </div>
   );

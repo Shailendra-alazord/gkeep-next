@@ -23,7 +23,11 @@ export default function MainBody({ className, noteListData, query }) {
   return (
     <div className={className}>
       <NotesLayout
-        className={layoutMode === 'GRID' ? 'grid-layout' : 'list-layout'}
+        className={
+          layoutMode === 'GRID'
+            ? 'flex flex-col h-full px-5 py-10 grid-layout'
+            : 'h-full px-5 py-10 mx-auto list-layout'
+        }
         layoutMode={layoutMode}
         noteListData={noteListData}
         toggleModal={toggleModal}

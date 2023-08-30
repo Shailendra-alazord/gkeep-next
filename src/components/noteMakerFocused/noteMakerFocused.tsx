@@ -73,8 +73,13 @@ export default function NoteMakerFocused({ className, focus, toggleFocus, noteLi
 
   return (
     <form ref={formRef} className={className} onSubmit={handleSubmit}>
-      <div className="note-maker-title-container">
-        <input className="note-maker-title" placeholder="Title" value={note.title} onChange={handleTitle} />
+      <div className="flex items-center h-10 p-1  note-maker-title-container">
+        <input
+          className="grow outline-none placeholder-default note-maker-title"
+          placeholder="Title"
+          value={note.title}
+          onChange={handleTitle}
+        />
         <button onClick={handlePin}>
           {note.pinned ? (
             <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
@@ -85,22 +90,26 @@ export default function NoteMakerFocused({ className, focus, toggleFocus, noteLi
       </div>
       <textarea
         autoFocus
-        className="note-maker-body"
+        className="min-h-12 resize-none outline-none px-1 py-3 placeholder-default note-maker-body"
         placeholder="Take a note..."
         value={note.body}
         onChange={handleBody}
       />
-      <div className="bottom-icons">
-        <div className="bottom-icon-list">
+      <div className="flex h-10 p-1 bottom-icons">
+        <div className="flex items-center gap-5 h-full grow bottom-icon-list">
           {iconList.map((icon: any) => {
             return (
-              <button key={'icon-' + icon.name} onClick={handleClick}>
+              <button
+                key={'icon-' + icon.name}
+                onClick={handleClick}
+                className="h-full aspect-square hover:rounded-full note-maker-icon"
+              >
                 <Image src={icon.src} alt={icon.name} width={20} height={20} />
               </button>
             );
           })}
         </div>
-        <button id="note-maker-close" type="submit" onClick={handleSubmit}>
+        <button className="h-full w-20 hover:rounded-lg note-maker-close" type="submit" onClick={handleSubmit}>
           Close
         </button>
       </div>

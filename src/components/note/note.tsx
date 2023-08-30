@@ -15,7 +15,7 @@ import { useCallback } from 'react';
 
 const bottomIcons = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, DELETEICON];
 // @ts-ignore
-export default function Note({ note, noteListData, className, toggleModal, toggleModalNote }) {
+export default function Note({ note, noteListData, className, toggleModal, toggleModalNote, layoutMode }) {
   const { noteList, setNoteList } = noteListData;
 
   const deleteNote = useCallback(() => {
@@ -55,9 +55,11 @@ export default function Note({ note, noteListData, className, toggleModal, toggl
 
   return (
     <pre className={className}>
-      <div className={`note-title ${className === 'note-container list' ? 'list' : 'grid'}`}>
-        <div onClick={handleClick}>{note.title ?? 'Title'}</div>
-        <button className={'btn-grid'} onClick={() => handleAction('pin')}>
+      <div className={`flex h-6 note-title`}>
+        <div onClick={handleClick} className="flex grow items-center font-medium note-title-label">
+          {note.title ?? 'Title'}
+        </div>
+        <button className={'hover:rounded-full btn-grid'} onClick={() => handleAction('pin')}>
           {note.pinned ? (
             <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
           ) : (
@@ -65,15 +67,19 @@ export default function Note({ note, noteListData, className, toggleModal, toggl
           )}
         </button>
       </div>
-      <div className={`note-body ${className === 'note-container list' ? 'list' : 'grid'}`} onClick={handleClick}>
+      <div className={`flex grow w-full py-2 note-body`} onClick={handleClick}>
         {note.body}
       </div>
-      <div className="note-icon-list">
+      <div
+        className={`flex h-8 items-center ${
+          layoutMode === 'GRID' ? 'justify-between' : 'justify-start gap-5'
+        } note-icon-list`}
+      >
         {bottomIcons.map((icon: any) => {
           return (
             <ActionButton
               key={'icon-' + icon.name}
-              className={'bottom-icons'}
+              className={'hover:rounded-full bottom-icons'}
               icon={icon}
               handleAction={handleAction}
             />

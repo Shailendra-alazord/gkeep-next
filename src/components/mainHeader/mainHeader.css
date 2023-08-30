@@ -1,30 +1,7 @@
 .note-maker {
-    display: flex;
-    border: 1px solid lightgray;
-    height: 48px;
-    width: 600px;
-    padding: 4px 16px;
-    gap: 8px;
-    border-radius: 8px;
     box-shadow: 0 2px 4px grey;
-}
-
-.note-maker button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    aspect-ratio: 1;
 }
 
 .note-maker button:hover {
     background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-}
-
-.note-maker.focused {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    gap: 0;
 }

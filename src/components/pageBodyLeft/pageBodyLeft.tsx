@@ -13,19 +13,23 @@ export default function PageBodyLeft({ className, menuOpen }) {
 
   return (
     <div className={className}>
-      <div className="left-pane-icons-container">
+      <div className="sticky top-16 flex flex-col pt-2 w-fit hover:cursor-pointer left-pane-icons-container">
         {LEFTPANEICONS.map((icon: any) => {
           return (
             <div
               key={'left-pane-icon' + icon.name}
-              className="left-pane-icon-container flex pl-5"
+              className="h-12 rounded-r-3xl hover:bg-hover-color left-pane-icon-container flex pl-5"
               style={{ backgroundColor: `${icon.name === 'notes' && '#feefc3'}` }}
               onClick={handleClick}
             >
-              <div className={'left-pane-icon ' + icon.name}>
+              <div className={'flex item-center justify-center h-full aspect-square left-pane-icon ' + icon.name}>
                 <Image src={icon.src} alt={icon.name} width={24} height={24} />
               </div>
-              {menuOpen && <div className={'left-pane-icon-label'}>{icon.label}</div>}
+              {menuOpen && (
+                <div className="flex items-center grow pl-5 text-sm font-medium w-56 left-pane-icon-label">
+                  {icon.label}
+                </div>
+              )}
             </div>
           );
         })}

@@ -1,68 +1,12 @@
-.grid-notes-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-
-.note-container.grid {
-    display: flex;
-    flex-direction: column;
-    width: 240px;
-    min-height: 160px;
-    padding: 12px 12px 8px;
-    border: 1px solid lightgray;
-    border-radius: 8px;
-    font-size: .875rem;
-}
-
-.note-container.grid div {
-    display: flex;
-}
-
-.note-container.grid button {
-    display: none;
-}
-
-.note-container.grid button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-}
-
-.list-notes-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: max-content;
-    margin-bottom: 40px;
-    /*border: 1px solid black;*/
-    margin-right: auto;
-    margin-left: auto;
-}
-
 .note-container:hover {
     box-shadow: 0 0 8px lightgray;
 }
 
-.note-container.list {
-    display: flex;
-    flex-direction: column;
-    width: 600px;
-    min-height: 160px;
-    padding: 12px 12px 8px;
-    border: 1px solid lightgray;
-    border-radius: 8px;
-}
-
-.note-container.list div {
-    display: flex;
-}
-
-.note-container.list button {
+.note-container button {
     display: none;
 }
 
-.note-container.list button:hover {
+.note-container button:hover {
     background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
 }
+

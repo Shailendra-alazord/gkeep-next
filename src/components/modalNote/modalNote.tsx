@@ -71,11 +71,22 @@ export default function ModalNote({ modalNote, noteListData, toggleModal, toggle
   }, [handleClose]);
 
   return (
-    <div className="modal-note-container">
-      <form ref={modalRef} className="modal-note">
-        <div className="modal-title">
-          <input placeholder="Title" value={modalNote.title} onChange={handleTitle} />
-          <button onClick={handlePin}>
+    <div className="absolute inset-0 h-full w-full bg-modal-backdrop modal-note-container">
+      <form
+        ref={modalRef}
+        className="absolute inset-0 m-auto w-150 h-fit min-h-100 bg-white flex flex-col px-4 pt-4 pb-3 rounded-lg modal-note"
+      >
+        <div className="flex h-10 text-1.5xl modal-title">
+          <input
+            className="grow outline-none px-2 modal-input"
+            placeholder="Title"
+            value={modalNote.title}
+            onChange={handleTitle}
+          />
+          <button
+            className="h-full aspect-square hover:rounded-full hover:bg-hover-color modal-pin"
+            onClick={handlePin}
+          >
             {modalNote.pinned ? (
               <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
             ) : (
@@ -83,14 +94,26 @@ export default function ModalNote({ modalNote, noteListData, toggleModal, toggle
             )}
           </button>
         </div>
-        <textarea placeholder="Take a note..." value={modalNote.body} onChange={handleBody} />
-        <div className="modal-bottom-icons">
+        <textarea
+          className="grow outline-none resize-none py-5 px-2 modal-body"
+          placeholder="Take a note..."
+          value={modalNote.body}
+          onChange={handleBody}
+        />
+        <div className="flex h-10 gap-4 items-center modal-bottom-icons">
           {iconList.map((icon: any) => (
-            <button key={`modal-icon-${icon.name}`} className={`modal-icon ${icon.name}`} onClick={handleClick}>
+            <button
+              key={`modal-icon-${icon.name}`}
+              className={`h-full aspect-square hover:bg-hover-color hover:rounded-full modal-icon ${icon.name}`}
+              onClick={handleClick}
+            >
               <Image src={icon.src} alt={icon.name} width={24} height={24} />
             </button>
           ))}
-          <button onClick={handleClose} className="modal-close">
+          <button
+            onClick={handleClose}
+            className="ml-auto h-full w-20 hover:bg-hover-color hover:rounded-lg modal-close"
+          >
             Close
           </button>
         </div>

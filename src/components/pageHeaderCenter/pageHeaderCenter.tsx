@@ -43,11 +43,24 @@ export default function PageHeaderCenter({ className, updateQuery }) {
 
   return (
     <div className={className}>
-      <form className="search-container" onSubmit={handleSubmit} onFocus={() => setSearchMode(true)}>
-        <div className="btn submit" onClick={handleSearch}>
+      <form
+        className="flex items-center h-full w-full gap-2 px-3 rounded-lg mr-auto focus-within:bg-white search-container"
+        onSubmit={handleSubmit}
+        onFocus={() => setSearchMode(true)}
+      >
+        <div
+          className="flex items-center justify-center h-9 aspect-square hover:rounded-full hover:bg-hover-color btn submit"
+          onClick={handleSearch}
+        >
           <Image src={SEARCHICON.src} alt={SEARCHICON.name} width={24} height={24} />
         </div>
-        <input className="search-global" type="text" placeholder="Search" value={query} onChange={handleChange} />
+        <input
+          className="bg-transparent grow outline-none search-global"
+          type="text"
+          placeholder="Search"
+          value={query}
+          onChange={handleChange}
+        />
         {searchMode && (
           <button className="btn close" onClick={handleClose}>
             <Image src={CLOSEICON.src} alt={CLOSEICON.name} width={24} height={24} />
