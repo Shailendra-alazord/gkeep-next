@@ -12,8 +12,9 @@ export default function NotesLayout({ className, noteListData, toggleModal, togg
   const handleClick = useCallback(
     (note: any) => {
       toggleModalNote(note);
+      toggleModal();
     },
-    [toggleModalNote]
+    [toggleModal, toggleModalNote]
   );
 
   return (
@@ -38,7 +39,6 @@ export default function NotesLayout({ className, noteListData, toggleModal, togg
                       ? 'flex flex-col w-60 pt-3 pb-2 px-3 border border-gray-300 rounded-lg text-sm'
                       : 'flex justify-start flex-col gap-5 w-150 min-h-40 px-3 pt-3 pb-2 border border-gray-300 rounded-lg text-sm'
                   } note-container `}
-                  toggleModal={toggleModal}
                   toggleModalNote={handleClick}
                   layoutMode={layoutMode}
                 />
@@ -67,7 +67,6 @@ export default function NotesLayout({ className, noteListData, toggleModal, togg
                       ? 'flex flex-col w-60 pt-3 pb-2 px-3 border border-gray-300 rounded-lg text-sm'
                       : 'flex justify-start flex-col gap-5 w-150 min-h-40 px-3 pt-3 pb-2 border border-gray-300 rounded-lg text-sm'
                   } note-container`}
-                  toggleModal={toggleModal}
                   toggleModalNote={handleClick}
                   layoutMode={layoutMode}
                 />

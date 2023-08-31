@@ -19,6 +19,7 @@ const config: Config = {
         '12': '3rem',
         '40': '10rem',
         '100': '25rem',
+        'full-vh': '100vh',
       },
       placeholderColor: {
         default: '#6a6a6a',

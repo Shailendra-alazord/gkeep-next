@@ -7,8 +7,8 @@ import './pageBody.css';
 export default function PageBody({ className, menuOpen, query }) {
   return (
     <div className={className}>
-      <PageBodyLeft className="h-full page-body-left" menuOpen={menuOpen} />
-      <PageBodyRight className="grow flex flex-col min-h-full p-8 page-body-right" query={query} />
+      <PageBodyLeft className="min-h-full-vh page-body-left" menuOpen={menuOpen} />
+      <PageBodyRight className="grow flex flex-col min-h-full-vh p-8 page-body-right" query={query} />
     </div>
   );
 }

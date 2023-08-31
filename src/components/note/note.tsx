@@ -15,7 +15,7 @@ import { useCallback } from 'react';
 
 const bottomIcons = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, DELETEICON];
 // @ts-ignore
-export default function Note({ note, noteListData, className, toggleModal, toggleModalNote, layoutMode }) {
+export default function Note({ note, noteListData, className, toggleModalNote, layoutMode }) {
   const { noteList, setNoteList } = noteListData;
 
   const deleteNote = useCallback(() => {
@@ -49,9 +49,8 @@ export default function Note({ note, noteListData, className, toggleModal, toggl
   );
 
   const handleClick = useCallback(() => {
-    toggleModal();
     toggleModalNote(note);
-  }, [note, toggleModal, toggleModalNote]);
+  }, [note, toggleModalNote]);
 
   return (
     <pre className={className}>
@@ -67,7 +66,7 @@ export default function Note({ note, noteListData, className, toggleModal, toggl
           )}
         </button>
       </div>
-      <div className={`flex grow w-full py-2 note-body`} onClick={handleClick}>
+      <div className={`flex grow py-2 note-body`} onClick={handleClick}>
         {note.body}
       </div>
       <div
