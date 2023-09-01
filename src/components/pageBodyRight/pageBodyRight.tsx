@@ -3,21 +3,22 @@
 import MainHeader from '@/components/mainHeader/mainHeader';
 import MainBody from '@/components/mainBody/mainBody';
 import './pageBodyRight.css';
-import {useContext, useMemo, useState} from 'react';
-import {DisplayContext} from '@/providers/displayProvider'; // @ts-ignore
+import {useContext, useMemo} from 'react';
+import {DisplayContext} from '@/providers/displayProvider';
+import useNoteList from '@/utils/useNoteList';
 
 // @ts-ignore
 export default function PageBodyRight({ className, query }) {
   // @ts-ignore
-  const [noteList, setNoteList] = useState(() => JSON.parse(localStorage.getItem('noteList')) ?? []);
+  const { noteList, noteListDispatch } = useNoteList();
   // @ts-ignore
   const { searchMode } = useContext(DisplayContext);
   const noteListData = useMemo(
     () => ({
       noteList,
-      setNoteList,
+      noteListDispatch,
     }),
-    [noteList]
+    [noteList, noteListDispatch]
   );
 
   return (

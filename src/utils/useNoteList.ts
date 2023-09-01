@@ -1,16 +1,19 @@
 import {useReducer} from 'react'; // @ts-ignore
 
 // @ts-ignore
-function noteListReducer(state: any, { type, payload, ...action }) {
+function noteListReducer(state: any, { type, payload }) {
   let newState = [...state];
   switch (type) {
     case 'add-note':
       newState = [payload, ...state];
       break;
-    case 'remove-note':
+    case 'delete-note':
       newState = state.filter((note: any) => {
         return note.id !== payload.id;
       });
+      break;
+    case 'update-note':
+      newState = state.map((note: any) => (note.id === payload.id ? payload : note));
       break;
     case 'toggle-pin':
       newState = state.map((note: any) => {
@@ -26,13 +29,11 @@ function noteListReducer(state: any, { type, payload, ...action }) {
       throw new Error('Error in dispatch function');
   }
   localStorage.setItem('noteList', JSON.stringify(newState));
-  console.log('note action performed', newState);
   return newState;
 }
 
 export default function useNoteList() {
   // @ts-ignore
   const [state, dispatch] = useReducer(noteListReducer, JSON.parse(localStorage.getItem('noteList')) ?? []);
-  console.log('note list initialised', state);
-  return { state, dispatch };
+  return { noteList: state, noteListDispatch: dispatch };
 }

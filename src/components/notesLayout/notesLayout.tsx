@@ -3,7 +3,7 @@ import Note from '@/components/note/note'; // @ts-ignore
 import './notesLayout.css';
 import filterNoteList from '@/utils/filterNoteList';
 // @ts-ignore
-export default function NotesLayout({ className, noteListData, toggleModal, toggleModalNote, layoutMode, query }) {
+export default function NotesLayout({ className, noteListData, toggleModal, modalNoteDispatch, layoutMode, query }) {
   const { noteList } = noteListData;
   const filteredList = filterNoteList(noteList, query);
   const noteListPinned = filteredList.filter((note: { pinned: any }) => note.pinned);
@@ -11,12 +11,11 @@ export default function NotesLayout({ className, noteListData, toggleModal, togg
 
   const handleClick = useCallback(
     (note: any) => {
-      toggleModalNote(note);
+      modalNoteDispatch({ type: 'update', payload: note });
       toggleModal();
     },
-    [toggleModal, toggleModalNote]
+    [modalNoteDispatch, toggleModal]
   );
-
   return (
     <div className={className}>
       {noteListPinned.length > 0 && (

@@ -1,38 +1,93 @@
 'use client';
 // @ts-ignore
 import Image from 'next/image';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 import {
-  ALERTICON,
-  ARCHIVEICON,
-  COLLABORATORICON,
-  DEFAULTNOTE,
-  MOREICON,
-  PALETTEICON,
-  PHOTOICON,
-  PINICON,
-  UNPINICON,
+    ALERTICON,
+    ARCHIVEICON,
+    COLLABORATORICON,
+    MOREICON,
+    PALETTEICON,
+    PHOTOICON,
+    PINICON,
+    UNPINICON,
 } from '@/utils/constants'; // @ts-ignore
 import './noteMakerFocused.css';
+import ActionMenu from '@/components/actionMenu/actionMenu';
+import ColorPalette from '@/components/colorPalette/colorPalette';
+import useNote from '@/utils/useNote';
+import ActionButton from '@/components/actionButton/actionButton';
 
-const iconList = [ALERTICON, COLLABORATORICON, PALETTEICON, PHOTOICON, ARCHIVEICON, MOREICON];
 // @ts-ignore
 export default function NoteMakerFocused({ className, focus, toggleFocus, noteListData }) {
-  const { noteList, setNoteList } = noteListData;
-  const [note, setNote] = useState(DEFAULTNOTE);
+  const { noteListDispatch } = noteListData;
+  const { note, noteDispatch } = useNote();
   const formRef = useRef(null);
-
+  const noteData = useMemo(
+    () => ({
+      note,
+      noteDispatch,
+    }),
+    [note, noteDispatch]
+  );
+  // @ts-ignore
+  const handleClick = useCallback((...args) => {
+    alert('Functionality will be added soon');
+  }, []);
+  const iconList = useMemo(
+    () => [
+      {
+        icon: ALERTICON,
+        className: '',
+        handleAction: handleClick,
+        childComponent: () => {},
+      },
+      {
+        icon: COLLABORATORICON,
+        className: '',
+        handleAction: handleClick,
+        childComponent: () => {},
+      },
+      {
+        icon: PALETTEICON,
+        className: '',
+        handleAction: () => {},
+        childComponent: () => (
+          <ColorPalette
+            className="absolute -left-8 top-8 flex gap-1 h-12 p-2 border bg-white z-10 rounded-lg color-palette-note-maker"
+            noteData={noteData}
+          />
+        ),
+      },
+      {
+        icon: PHOTOICON,
+        className: '',
+        handleAction: handleClick,
+        childComponent: () => {},
+      },
+      {
+        icon: ARCHIVEICON,
+        className: '',
+        handleAction: handleClick,
+        childComponent: () => {},
+      },
+      {
+        icon: MOREICON,
+        className: '',
+        handleAction: handleClick,
+        childComponent: () => {},
+      },
+    ],
+    [handleClick, noteData]
+  );
   const submitNote = useCallback(() => {
     if (note.title || note.body) {
       const newNote = { ...note, id: Date.now().toString() };
-      const newNoteList = [newNote, ...noteList];
-      setNote(newNote);
-      setNoteList(newNoteList);
-      localStorage.setItem('noteList', JSON.stringify(newNoteList));
-      console.log(newNoteList);
+      noteDispatch({ type: 'update', payload: newNote });
+      noteListDispatch({ type: 'add-note', payload: newNote });
     }
     toggleFocus();
-  }, [note, noteList, setNoteList, toggleFocus]);
+  }, [note, noteDispatch, noteListDispatch, toggleFocus]);
 
   const handleSubmit = useCallback(
     (event: any) => {
@@ -42,21 +97,16 @@ export default function NoteMakerFocused({ className, focus, toggleFocus, noteLi
     [submitNote]
   );
 
-  const handleClick = useCallback((event: any) => {
-    event.preventDefault();
-  }, []);
-
   function handleTitle(event: any) {
-    setNote(prevState => ({ ...prevState, title: event.target.value }));
+    noteDispatch({ type: 'title-update', payload: event.target.value });
   }
 
   function handleBody(event: any) {
-    setNote({ ...note, body: event.target.value });
+    noteDispatch({ type: 'body-update', payload: event.target.value });
   }
 
-  function handlePin(event: any) {
-    event.preventDefault();
-    setNote({ ...note, pinned: !note.pinned });
+  function handlePin() {
+    noteDispatch({ type: 'pin-change', payload: {} });
   }
 
   useEffect(() => {
@@ -72,43 +122,44 @@ export default function NoteMakerFocused({ className, focus, toggleFocus, noteLi
   }, [submitNote]);
 
   return (
-    <form ref={formRef} className={className} onSubmit={handleSubmit}>
+    <form
+      id="note-maker"
+      ref={formRef}
+      className={className}
+      onSubmit={handleSubmit}
+      style={{ backgroundColor: note.backgroundColor }}
+    >
       <div className="flex items-center h-10 p-1  note-maker-title-container">
         <input
-          className="grow outline-none placeholder-default note-maker-title"
+          name="note-maker-title"
+          className="grow outline-none placeholder-default bg-transparent note-maker-title"
           placeholder="Title"
           value={note.title}
           onChange={handleTitle}
         />
-        <button onClick={handlePin}>
-          {note.pinned ? (
-            <Image src={UNPINICON.src} alt={UNPINICON.name} width={24} height={24} />
-          ) : (
-            <Image src={PINICON.src} alt={PINICON.name} width={24} height={24} />
-          )}
-        </button>
+        <ActionButton
+          className="h-full aspect-square hover:bg-hover-color rounded-full note-maker-pin"
+          handleAction={handlePin}
+          icon={note.pinned ? UNPINICON : PINICON}
+          iconHeight={24}
+          childComponent={() => {}}
+        />
       </div>
       <textarea
         autoFocus
-        className="min-h-12 resize-none outline-none px-1 py-3 placeholder-default note-maker-body"
+        name="note-maker-body"
+        className="min-h-12 resize-none outline-none px-1 py-3 placeholder-default bg-transparent note-maker-body"
         placeholder="Take a note..."
         value={note.body}
         onChange={handleBody}
       />
       <div className="flex h-10 p-1 bottom-icons">
-        <div className="flex items-center gap-5 h-full grow bottom-icon-list">
-          {iconList.map((icon: any) => {
-            return (
-              <button
-                key={'icon-' + icon.name}
-                onClick={handleClick}
-                className="h-full aspect-square hover:rounded-full note-maker-icon"
-              >
-                <Image src={icon.src} alt={icon.name} width={20} height={20} />
-              </button>
-            );
-          })}
-        </div>
+        <ActionMenu
+          className="flex items-center gap-5 h-full grow bottom-icon-list"
+          defaultClass="relative h-full aspect-square hover:rounded-full note-maker-icon"
+          actionButtonList={iconList}
+          iconHeight={20}
+        />
         <button className="h-full w-20 hover:rounded-lg note-maker-close" type="submit" onClick={handleSubmit}>
           Close
         </button>

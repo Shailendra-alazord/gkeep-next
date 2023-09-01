@@ -2,10 +2,6 @@
     box-shadow: 0 0 8px lightgray;
 }
 
-.note-container button {
-    display: none;
-}
-
 .note-container button:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
